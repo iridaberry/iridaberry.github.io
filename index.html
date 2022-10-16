@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>sweet!</title />
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <meta name="robots" content="noindex,nofollow,noarchive,nocache,nosnippet" />
+      <style>
+         * { margin: 0; padding: 0; }
+         body { background: #111; }
+         canvas { display: block; }
+      </style>
+   </head>
+   <body>
+      <canvas>
+      </canvas>
+      <script>
+      // Initializing the canvas
+      var canvas = document.querySelector("canvas"),
+          ctx = canvas.getContext("2d");
+      // Setting the width and height of the canvas
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // Setting up the letters
+      var letters = "🧁🍩🎂🍰🍨🥧🍬🍮🍭🍫🍪🍦🧇🥞🧋🍡🥮";
+      var letters = [...letters];
+      // Setting up the columns
+      var fontSize = 18,
+          columns = Math.floor(canvas.width / fontSize);
+      // Setting up the drops
+      var drops = [];
+      for (var x = 0; x < columns; x++) drops[x] = 1;
+      // Setting up the draw function
+      function draw() {
+         ctx.fillStyle = "rgba(0, 0, 0, .1)";
+         ctx.fillRect(0, 0, canvas.width, canvas.height);
+         ctx.fillStyle = "#ff0080";
+         ctx.font = fontSize + "px monospace";
+         drops.forEach((y, x) => {
+            //var text = String.fromCharCode(Math.random() * 128);
+            var text = letters[Math.floor(Math.random() * letters.length)];
+            ctx.fillText(text, x * fontSize, y * fontSize);
+            if (y * fontSize > (canvas.height - fontSize) || Math.random() > 0.95) drops[x] = 0;
+            drops[x]++;
+         })
+      }
+      // Loop the animation
+      setInterval(draw, 50);
+      // Redraw on window resize
+      window.addEventListener("resize", redraw, false);
+      function redraw() {
+         canvas.width = window.innerWidth;
+         canvas.height = window.innerHeight;
+         columns = Math.floor(canvas.width / fontSize);
+         for (var x = 0; x < columns; x++) drops[x] = 1;
+         draw();
+      }
+      </script>
+   </body>
+</html>
